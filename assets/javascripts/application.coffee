@@ -9,4 +9,16 @@ App.Drink = DS.Model.extend
   image: (-> '/images/' + this.get('id') + '.png').property('id')
 
 App.DrinksView = Ember.View.extend
-  drinks: App.store.findAll(App.Drink)
+  drinksBinding: 'App.drinksController.content'
+
+App.drinksController = Ember.Object.create
+  content: []
+
+  populate: ->
+    this.content = App.store.findAll(App.Drink)
+
+App.statechart = SC.Statechart.create
+  autoInitStatechart: true
+
+  rootState: SC.State.extend
+    enterState: -> App.drinksController.populate()

@@ -18,7 +18,23 @@
   });
 
   App.DrinksView = Ember.View.extend({
-    drinks: App.store.findAll(App.Drink)
+    drinksBinding: 'App.drinksController.content'
+  });
+
+  App.drinksController = Ember.Object.create({
+    content: [],
+    populate: function() {
+      return this.content = App.store.findAll(App.Drink);
+    }
+  });
+
+  App.statechart = SC.Statechart.create({
+    autoInitStatechart: true,
+    rootState: SC.State.extend({
+      enterState: function() {
+        return App.drinksController.populate();
+      }
+    })
   });
 
 }).call(this);
