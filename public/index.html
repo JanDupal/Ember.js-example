@@ -20,8 +20,13 @@
 </head>
 <body>
   <script type="text/x-handlebars">
-    {{#view App.MyView}}
+    {{#view App.DrinksView}}
       <h1>Hello world!</h1>
+      <ul>
+        {{#each drinks}}
+          <li><strong>{{name}}</strong>, {{alcohol}}, {{image}}</li>
+        {{/each}}
+      </ul>
     {{/view}}
   </script>
 

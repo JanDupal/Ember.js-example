@@ -29,5 +29,13 @@ app.get('/', function(req, res) {
   res.redirect('/index.html');
 });
 
+app.get('/drinks', function(req, res) {
+  drinks = [
+    { id: 1, name: 'Beer', alcohol: 45 },
+    { id: 2, name: 'Da beer', alcohol: 65 }
+  ];
+  res.send({ drinks: drinks });
+});
+
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
