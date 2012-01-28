@@ -5,6 +5,10 @@
 
 var express = require('express');
 var app = module.exports = express.createServer();
+var drinks = [
+  { id: 1, name: 'Beer', alcohol: 45 },
+  { id: 2, name: 'Da beer', alcohol: 65 }
+];
 
 // Configuration
 
@@ -30,11 +34,20 @@ app.get('/', function(req, res) {
 });
 
 app.get('/drinks', function(req, res) {
-  drinks = [
-    { id: 1, name: 'Beer', alcohol: 45 },
-    { id: 2, name: 'Da beer', alcohol: 65 }
-  ];
   res.send({ drinks: drinks });
+});
+
+
+app.post('/drinks', function(req, res) {
+  var drink = req.body.drink;
+  if(drink.name && drink.alcohol) {
+    drink.id = drinks[drinks.length - 1].id + 1;
+    drinks.push(drink);
+    res.send({ drink: drink });
+  }
+  else{
+    console.log(drink);
+  }
 });
 
 app.listen(3000);

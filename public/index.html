@@ -28,6 +28,13 @@
         {{/each}}
       </ul>
     {{/view}}
+    {{#view App.NewDrinkView}}
+      Název:
+      {{view Ember.TextField valueBinding="newDrink.name"}}
+      Alkohol:
+      {{view Ember.TextField valueBinding="newDrink.alcohol" type="number"}}
+      {{#view Ember.Button target="parentView" action="create"}}Vytvořit{{/view}}
+    {{/view}}
   </script>
 
   <script src="/javascripts/vendor/jquery-1.7.1.js"></script>

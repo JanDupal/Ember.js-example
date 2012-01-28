@@ -10,6 +10,7 @@
   });
 
   App.Drink = DS.Model.extend({
+    id: DS.attr('integer'),
     name: DS.attr('string'),
     alcohol: DS.attr('integer'),
     image: (function() {
@@ -21,10 +22,22 @@
     drinksBinding: 'App.drinksController.content'
   });
 
+  App.NewDrinkView = Ember.View.extend({
+    newDrink: {},
+    create: function() {
+      App.drinksController.create(this.newDrink);
+      return this.set('newDrink', {});
+    }
+  });
+
   App.drinksController = Ember.Object.create({
     content: [],
     populate: function() {
-      return this.content = App.store.findAll(App.Drink);
+      return this.set('content', App.store.findAll(App.Drink));
+    },
+    create: function(drink) {
+      App.store.createRecord(App.Drink, drink);
+      return App.store.commit();
     }
   });
 
