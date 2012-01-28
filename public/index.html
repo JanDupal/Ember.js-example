@@ -24,7 +24,10 @@
       <h1>Hello world!</h1>
       <ul>
         {{#each drinks}}
-          <li><strong>{{name}}</strong>, {{alcohol}}, {{image}}</li>
+          <li>
+            <strong>{{name}}</strong>, {{alcohol}}, {{image}}
+            {{#view Ember.Button tagName="a" target="parentView" action="destroyDrink" drinkBinding="this"}}X{{/view}}
+          </li>
         {{/each}}
       </ul>
     {{/view}}

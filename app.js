@@ -50,5 +50,20 @@ app.post('/drinks', function(req, res) {
   }
 });
 
+app.delete('/drinks/:id', function(req, res) {
+  var idx = null;
+  drinks.forEach(function (element, index, array){
+    if(element.id == req.params.id) { idx = index}
+  });
+
+  if(idx !== null) {
+    drinks.pop(idx);
+    res.send(200);
+  }
+  else{
+    console.log(req.params.id);
+  }
+});
+
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);

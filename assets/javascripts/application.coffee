@@ -16,6 +16,9 @@ App.Drink = DS.Model.extend
 App.DrinksView = Ember.View.extend
   drinksBinding: 'App.drinksController.content'
 
+  destroyDrink: (e) ->
+    App.drinksController.destroy(e.get('drink'))
+
 App.NewDrinkView = Ember.View.extend
   newDrink: {}
 
@@ -33,6 +36,10 @@ App.drinksController = Ember.Object.create
 
   create: (drink) ->
     App.store.createRecord(App.Drink, drink)
+    App.store.commit()
+
+  destroy: (drink) ->
+    drink.deleteRecord()
     App.store.commit()
 
 # Statechart

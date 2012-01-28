@@ -19,7 +19,10 @@
   });
 
   App.DrinksView = Ember.View.extend({
-    drinksBinding: 'App.drinksController.content'
+    drinksBinding: 'App.drinksController.content',
+    destroyDrink: function(e) {
+      return App.drinksController.destroy(e.get('drink'));
+    }
   });
 
   App.NewDrinkView = Ember.View.extend({
@@ -37,6 +40,10 @@
     },
     create: function(drink) {
       App.store.createRecord(App.Drink, drink);
+      return App.store.commit();
+    },
+    destroy: function(drink) {
+      drink.deleteRecord();
       return App.store.commit();
     }
   });
