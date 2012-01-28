@@ -9,6 +9,7 @@ var drinks = [
   { id: 1, name: 'Beer', alcohol: 45 },
   { id: 2, name: 'Da beer', alcohol: 65 }
 ];
+var lastId = 2;
 
 // Configuration
 
@@ -41,7 +42,7 @@ app.get('/drinks', function(req, res) {
 app.post('/drinks', function(req, res) {
   var drink = req.body.drink;
   if(drink.name && drink.alcohol) {
-    drink.id = drinks[drinks.length - 1].id + 1;
+    drink.id = ++lastId;
     drinks.push(drink);
     res.send({ drink: drink });
   }
@@ -57,11 +58,12 @@ app.delete('/drinks/:id', function(req, res) {
   });
 
   if(idx !== null) {
-    drinks.pop(idx);
+    drinks.splice(idx, 1);
     res.send(200);
   }
   else{
     console.log(req.params.id);
+    console.log(drinks);
   }
 });
 
