@@ -34,6 +34,10 @@ App.drinksController = Ember.Object.create
   populate: ->
     this.set('content', App.store.findAll(App.Drink))
 
+  reload: ->
+    App.store.typeMapFor(App.Drink).findAllCache = null
+    this.populate()
+
   create: (drink) ->
     App.store.createRecord(App.Drink, drink)
     App.store.commit()
@@ -49,3 +53,10 @@ App.statechart = SC.Statechart.create
 
   rootState: SC.State.extend
     enterState: -> App.drinksController.populate()
+
+# Socket.IO
+
+socket = io.connect()
+
+socket.on 'data changed', ->
+  App.drinksController.reload()

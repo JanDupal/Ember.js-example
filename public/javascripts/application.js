@@ -1,5 +1,5 @@
 (function() {
-  var App;
+  var App, socket;
 
   window.App = App = Ember.Application.create();
 
@@ -38,6 +38,10 @@
     populate: function() {
       return this.set('content', App.store.findAll(App.Drink));
     },
+    reload: function() {
+      App.store.typeMapFor(App.Drink).findAllCache = null;
+      return this.populate();
+    },
     create: function(drink) {
       App.store.createRecord(App.Drink, drink);
       return App.store.commit();
@@ -55,6 +59,12 @@
         return App.drinksController.populate();
       }
     })
+  });
+
+  socket = io.connect();
+
+  socket.on('data changed', function() {
+    return App.drinksController.reload();
   });
 
 }).call(this);

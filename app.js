@@ -5,6 +5,7 @@
 
 var express = require('express');
 var app = module.exports = express.createServer();
+var io = require('socket.io').listen(app);
 var drinks = [
   { id: 1, name: 'Beer', alcohol: 45 },
   { id: 2, name: 'Da beer', alcohol: 65 },
@@ -46,6 +47,7 @@ app.post('/drinks', function(req, res) {
     drink.id = ++lastId;
     drinks.push(drink);
     res.send({ drink: drink });
+    notifyAll('data changed');
   }
   else{
     console.log(drink);
@@ -74,6 +76,7 @@ app.delete('/drinks/:id', function(req, res) {
     var drink = drinks[idx];
     drinks.splice(idx, 1);
     res.send({ drink: drink });
+    notifyAll('data changed');
   }
   else{
     console.log(req.params.id);
@@ -89,6 +92,10 @@ function findDrinkIndexById(id) {
   });
 
   return idx;
+}
+
+function notifyAll(msg) {
+  io.sockets.emit(msg);
 }
 
 app.listen(3000);
