@@ -48,6 +48,7 @@ app.post('/drinks', function(req, res) {
   }
   else{
     console.log(drink);
+    res.send(400);
   }
 });
 
@@ -58,12 +59,14 @@ app.delete('/drinks/:id', function(req, res) {
   });
 
   if(idx !== null) {
+    var drink = drinks[idx];
     drinks.splice(idx, 1);
-    res.send(200);
+    res.send({ drink: drink });
   }
   else{
     console.log(req.params.id);
     console.log(drinks);
+    res.send(400);
   }
 });
 
