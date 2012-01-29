@@ -35,7 +35,7 @@ App.drinksController = Ember.Object.create
     this.set('content', App.store.findAll(App.Drink))
 
   reload: ->
-    App.store.typeMapFor(App.Drink).findAllCache = null
+    App.cleanCache(App.Drink)
     this.populate()
 
   create: (drink) ->
@@ -60,3 +60,14 @@ socket = io.connect()
 
 socket.on 'data changed', ->
   App.drinksController.reload()
+
+# Utils
+
+App.cleanCache = (type) ->
+  typeMap = App.store.typeMapFor(type)
+
+  typeMap.findAllCache = null
+  typeMap.cidList = []
+  typeMap.cidToHash = {}
+  typeMap.idList = []
+  typeMap.idToCid = {}

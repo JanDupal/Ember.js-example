@@ -39,7 +39,7 @@
       return this.set('content', App.store.findAll(App.Drink));
     },
     reload: function() {
-      App.store.typeMapFor(App.Drink).findAllCache = null;
+      App.cleanCache(App.Drink);
       return this.populate();
     },
     create: function(drink) {
@@ -66,5 +66,15 @@
   socket.on('data changed', function() {
     return App.drinksController.reload();
   });
+
+  App.cleanCache = function(type) {
+    var typeMap;
+    typeMap = App.store.typeMapFor(type);
+    typeMap.findAllCache = null;
+    typeMap.cidList = [];
+    typeMap.cidToHash = {};
+    typeMap.idList = [];
+    return typeMap.idToCid = {};
+  };
 
 }).call(this);
