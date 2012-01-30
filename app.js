@@ -7,9 +7,10 @@ var express = require('express');
 var app = module.exports = express.createServer();
 var drinks = [
   { id: 1, name: 'Beer', alcohol: 45 },
-  { id: 2, name: 'Da beer', alcohol: 65 }
+  { id: 2, name: 'Da beer', alcohol: 65 },
+  { id: 3, name: 'New beer', alcohol: 35 }
 ];
-var lastId = 2;
+var lastId = 3;
 
 // Configuration
 
@@ -52,11 +53,22 @@ app.post('/drinks', function(req, res) {
   }
 });
 
+app.get('/drinks/:id', function(req, res) {
+  var idx = findDrinkIndexById(req.params.id);
+
+  if(idx !== null) {
+    var drink = drinks[idx];
+    res.send({ drink: drink });
+  }
+  else{
+    console.log(req.params.id);
+    console.log(drinks);
+    res.send(404);
+  }
+});
+
 app.delete('/drinks/:id', function(req, res) {
-  var idx = null;
-  drinks.forEach(function (element, index, array){
-    if(element.id == req.params.id) { idx = index}
-  });
+  var idx = findDrinkIndexById(req.params.id);
 
   if(idx !== null) {
     var drink = drinks[idx];
@@ -69,6 +81,15 @@ app.delete('/drinks/:id', function(req, res) {
     res.send(400);
   }
 });
+
+function findDrinkIndexById(id) {
+  var idx = null;
+  drinks.forEach(function (element, index, array){
+    if(element.id == id) { idx = index}
+  });
+
+  return idx;
+}
 
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
