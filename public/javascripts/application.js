@@ -67,6 +67,16 @@
     return App.drinksController.reload();
   });
 
+  socket.on('drink created', function(data) {
+    return App.store.find(App.Drink, data.id);
+  });
+
+  socket.on('drink deleted', function(data) {
+    var drink;
+    drink = App.store.find(App.Drink, data.id);
+    return App.store.removeFromModelArrays(drink);
+  });
+
   App.cleanCache = function(type) {
     var typeMap;
     typeMap = App.store.typeMapFor(type);

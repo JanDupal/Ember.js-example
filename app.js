@@ -47,7 +47,7 @@ app.post('/drinks', function(req, res) {
     drink.id = ++lastId;
     drinks.push(drink);
     res.send({ drink: drink });
-    notifyAll('data changed');
+    notifyAll('drink created', { id: drink.id });
   }
   else{
     console.log(drink);
@@ -76,7 +76,7 @@ app.delete('/drinks/:id', function(req, res) {
     var drink = drinks[idx];
     drinks.splice(idx, 1);
     res.send({ drink: drink });
-    notifyAll('data changed');
+    notifyAll('drink deleted', { id: drink.id });
   }
   else{
     console.log(req.params.id);
@@ -94,8 +94,8 @@ function findDrinkIndexById(id) {
   return idx;
 }
 
-function notifyAll(msg) {
-  io.sockets.emit(msg);
+function notifyAll(msg, data) {
+  io.sockets.emit(msg, data || {});
 }
 
 app.listen(3000);

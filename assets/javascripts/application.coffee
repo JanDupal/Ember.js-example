@@ -61,6 +61,13 @@ socket = io.connect()
 socket.on 'data changed', ->
   App.drinksController.reload()
 
+socket.on 'drink created', (data) ->
+  App.store.find(App.Drink, data.id)
+
+socket.on 'drink deleted', (data) ->
+  drink = App.store.find(App.Drink, data.id)
+  App.store.removeFromModelArrays(drink)
+
 # Utils
 
 App.cleanCache = (type) ->
