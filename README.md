@@ -1,3 +1,8 @@
+Disclaimer
+==========
+
+This example built using Ember.js **0.9.4**, which is very different from **1.x**. I'm currently working on port to 1.0.0-RC.1.
+
 Ember.js Example
 ================
 
